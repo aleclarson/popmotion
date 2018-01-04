@@ -4,7 +4,6 @@
   "description": "A functional, reactive motion library.",
   "author": "Matt Perry",
   "homepage": "https://popmotion.io",
-  "main": "src/index.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/Popmotion/popmotion"
