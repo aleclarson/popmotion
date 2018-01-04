@@ -1,0 +1,13 @@
+/dist
+/node_modules
+/*.js
+/*.js.map
+*.d.ts
+/action
+/animations
+/compositors
+/input
+/observables
+/observer
+/chainable
+/reactions
