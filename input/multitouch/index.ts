@@ -1,4 +1,4 @@
-import { cancelOnFrameUpdate, onFrameUpdate } from 'framesync';
+import frame from 'framesync';
 import action, { Action } from '../../action';
 import { angle, distance } from '../../calc';
 import listen from '../listen';
@@ -59,17 +59,17 @@ const multitouch = ({ preventDefault = true, scale = 1.0, rotate = 0.0 }: Pointe
 
   const onMove = (e: TouchEvent) => {
     if (preventDefault || e.touches.length > 1) e.preventDefault();
-    onFrameUpdate(updatePoint);
+    frame.once('update', updatePoint);
   };
 
   const updateOnMove = listen(document, 'touchmove', { passive: !preventDefault })
     .start(onMove);
 
-  if (isTouchDevice) onFrameUpdate(updatePoint);
+  if (isTouchDevice) frame.once('update', updatePoint);
 
   return {
     stop: () => {
-      cancelOnFrameUpdate(updatePoint);
+      frame.off('update', updatePoint);
       updateOnMove.stop();
     }
   };

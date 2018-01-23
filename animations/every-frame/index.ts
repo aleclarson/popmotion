@@ -1,21 +1,21 @@
-import { currentTime, currentFrameTime, onFrameUpdate } from 'framesync';
+import frame from 'framesync';
 import action, { Action } from '../../action';
 
-const frame = (): Action => action(({ update }) => {
+const everyFrame = (): Action => action(({ update }) => {
   let isActive = true;
-  const startTime = currentTime();
+  const startTime = frame.now();
 
   const nextFrame = () => {
     if (!isActive) return;
-    update(currentFrameTime() - startTime);
-    onFrameUpdate(nextFrame);
+    update(frame.time - startTime);
+    frame.once('update', nextFrame);
   };
 
-  onFrameUpdate(nextFrame);
+  frame.once('update', nextFrame);
 
   return {
     stop: () => isActive = false
   };
 });
 
-export default frame;
+export default everyFrame;

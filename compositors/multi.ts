@@ -1,4 +1,4 @@
-import { onFrameUpdate } from 'framesync';
+import frame from 'framesync';
 import action, { Action } from '../action';
 import { ColdSubscription } from '../action/types';
 
@@ -29,12 +29,12 @@ const multi = <A, T, V, I>({
   const subs = startActions(actions, (a, name) => a.start({
     complete: () => {
       numCompletedActions++;
-      if (numCompletedActions === numActions) onFrameUpdate(complete);
+      if (numCompletedActions === numActions) frame.once('update', complete);
     },
     error,
     update: (v: any) => {
       setProp(output, name, v);
-      onFrameUpdate(updateOutput, true);
+      frame.once('update', updateOutput, true);
     }
   }));
 

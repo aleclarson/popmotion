@@ -1,5 +1,5 @@
 // Implementation of https://ariya.io/2013/11/javascript-kinetic-scrolling-part-2
-import { timeSinceLastFrame } from 'framesync';
+import frame from 'framesync';
 import { number } from 'style-value-types';
 import action from '../../action';
 import { Action } from '../../action';
@@ -24,7 +24,7 @@ const decay = (props: Props = {}): Action => action(({ complete, update }) => {
     : modifyTarget(idealTarget);
 
   const timer = onFrame().start(() => {
-    elapsed += timeSinceLastFrame();
+    elapsed += frame.elapsed;
     const delta = -amplitude * Math.exp(-elapsed / timeConstant);
     const isMoving = (delta > restDelta || delta < -restDelta);
     const current = isMoving ? target + delta : target;

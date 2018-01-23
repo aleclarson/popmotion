@@ -1,4 +1,4 @@
-import { onFrameUpdate, timeSinceLastFrame } from 'framesync';
+import frame from 'framesync';
 import action, { Action } from '../../action';
 import { ColdSubscription } from '../../action/types';
 import { getProgressFromValue, getValueFromProgress } from '../../calc';
@@ -76,11 +76,11 @@ const tween = (props: TweenProps = {}): Action => action(({ update, complete }: 
   const startTimer = () => {
     isActive = true;
     tweenTimer = onFrame().start(() => {
-      elapsed += timeSinceLastFrame() * playDirection;
+      elapsed += frame.elapsed * playDirection;
       updateTween();
       if (isTweenComplete() && complete) {
         tweenTimer.stop();
-        onFrameUpdate(complete, true);
+        frame.once('update', complete, true);
       }
     });
   };
@@ -109,7 +109,7 @@ const tween = (props: TweenProps = {}): Action => action(({ update, complete }: 
     },
     seek(newProgress: number) {
       elapsed = getValueFromProgress(0, duration, newProgress);
-      onFrameUpdate(updateTween, true);
+      frame.once('update', updateTween, true);
       return this;
     },
     reverse() {

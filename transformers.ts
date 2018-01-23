@@ -1,4 +1,4 @@
-import { currentFrameTime } from 'framesync';
+import frame from 'framesync';
 import { color, Color, hsla, HSLA } from 'style-value-types';
 import { getProgressFromValue, getValueFromProgress, smooth as calcSmoothing, stepProgress } from './calc';
 import { Easing } from './easing';
@@ -159,7 +159,7 @@ export const smooth = (strength: number = 50) => {
   let lastUpdated = 0;
 
   return (v: number) => {
-    const currentFramestamp = currentFrameTime();
+    const currentFramestamp = frame.time;
     const timeDelta = (currentFramestamp !== lastUpdated) ? currentFramestamp - lastUpdated : 0;
     const newValue = timeDelta ? calcSmoothing(v, previousValue, timeDelta, strength) : previousValue;
     lastUpdated = currentFramestamp;

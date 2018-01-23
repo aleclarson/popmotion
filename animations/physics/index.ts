@@ -1,4 +1,4 @@
-import { timeSinceLastFrame } from 'framesync';
+import frame from 'framesync';
 import { number } from 'style-value-types';
 import action from '../../action';
 import { Action } from '../../action';
@@ -22,7 +22,7 @@ const physics = (props: Props = {}): Action => action(({ complete, update }): Ph
   let current = from;
 
   const timer = onFrame().start(() => {
-    const elapsed = timeSinceLastFrame();
+    const elapsed = frame.elapsed;
 
     if (acceleration) velocity += speedPerFrame(acceleration, elapsed);
     if (friction) velocity *= (1 - friction) ** (elapsed / 100);

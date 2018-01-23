@@ -1,4 +1,4 @@
-import { cancelOnFrameUpdate, onFrameUpdate } from 'framesync';
+import frame from 'framesync';
 import action, { Action } from '../../action';
 import listen from '../listen';
 import { defaultPointerPos, eventToPoint } from '../pointer/utils';
@@ -22,16 +22,16 @@ const mouse = ({ preventDefault = true }: PointerProps = {}): Action => action((
 
   const onMove = (e: MouseEvent) => {
     if (preventDefault) e.preventDefault();
-    onFrameUpdate(updatePoint);
+    frame.once('update', updatePoint);
   };
 
   const updateOnMove = listen(document, 'mousemove').start(onMove);
 
-  if (isMouseDevice) onFrameUpdate(updatePoint);
+  if (isMouseDevice) frame.once('update', updatePoint);
 
   return {
     stop: () => {
-      cancelOnFrameUpdate(updatePoint);
+      frame.off('update', updatePoint);
       updateOnMove.stop();
     }
   };

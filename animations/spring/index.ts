@@ -1,4 +1,4 @@
-import { timeSinceLastFrame } from 'framesync';
+import frame from 'framesync';
 import { number } from 'style-value-types';
 import action from '../../action';
 import { Action } from '../../action';
@@ -25,7 +25,7 @@ const spring = (props: SpringProps = {}): Action => action(({ update, complete }
   let prevPosition = position;
 
   const springTimer = onFrame().start(() => {
-    const timeDelta = timeSinceLastFrame();
+    const timeDelta = frame.elapsed;
     t += timeDelta;
 
     const dampingRatio = damping / (2 * Math.sqrt(stiffness * mass));

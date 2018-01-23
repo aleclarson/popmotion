@@ -1,4 +1,4 @@
-import { timeSinceLastFrame } from 'framesync';
+import frame from 'framesync';
 import { speedPerSecond } from '../calc';
 import { ObserverCandidate, ObserverProps, Update } from '../observer/types';
 import { BaseMulticast } from './';
@@ -73,7 +73,7 @@ export class ValueReaction extends BaseMulticast<ValueReaction> {
     super.update(v);
     this.prev = this.current;
     this.updateCurrent(v);
-    this.timeDelta = timeSinceLastFrame();
+    this.timeDelta = frame.elapsed;
   }
 
   subscribe(observerCandidate: ObserverCandidate): HotSubscription {
